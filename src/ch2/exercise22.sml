@@ -2,8 +2,8 @@
 
 signature Set =
 sig
-    type Elem;
-    type Set;
+    type Elem
+    type Set
 
     val empty  : Set;
     val insert : Elem * Set -> Set;
@@ -12,7 +12,7 @@ end
 
 signature Ordered =
 sig
-    type T;
+    type T
 
     val eq :  T * T -> bool;
     val lt :  T * T -> bool;
@@ -21,7 +21,7 @@ end
 
 functor UnbalancedSet (Element: Ordered): Set =
 struct
-    type Elem;
+    type Elem
     datatype Tree = E | T of Tree * Elem * Tree;
     type Set = Tree;
     
