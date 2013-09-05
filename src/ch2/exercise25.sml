@@ -24,15 +24,15 @@ struct
     type Elem = Element.T
     datatype Tree = E | T of Tree * Elem * Tree
     type Set = Tree
-    
+
     val empty = E
-    
+
     fun member (x, E) = false
       | member (x, T (a, y, b)) =
           if Element.lt (x, y) then member (x, a)
           else if Element.lt (y, x) then member (x, b)
           else true
-    
+
     fun insert (x, E) = T (E, x, E)
       | insert (x, s as T (a, y, b)) =
           if Element.lt (x, y) then T (insert (x, a), y, b)
@@ -42,8 +42,8 @@ struct
     (* 25 a) *)
     fun completeTree (x, 0) = E
       | completeTree (x, d : int) =
-        let val child : Tree = completeTree (x, d - 1) in
-            T (child, x, child)
+        let val child : Tree = completeTree (x, d - 1)
+        in T (child, x, child)
         end
 
     (* 25 b) *)
