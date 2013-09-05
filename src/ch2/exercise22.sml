@@ -1,4 +1,4 @@
-(* Excercise 2.2 *)
+(* Exercise 2.2 - Rewrite `member` to take no more than d + 1 comparisons. *)
 
 signature Set =
 sig
@@ -29,9 +29,16 @@ struct
     
     fun member (x, E) = false
       | member (x, T (a, y, b)) =
-          if Element.lt (x, y) then member (x, a)
-          else if Element.lt (y, x) then member (x, b)
-          else true
+        let (* Max d comparisons in here. *)
+            fun accmember (acc, E) = Element.eq (acc, x)
+              | accmember (acc, T (a, y, b)) =
+                if Element.lt (y, x) then accmember (acc, b)
+                else accmember (y, a)
+        in  (* 1 comparison here *)
+            if Element.lt (y, x) then accmember (y, b)
+                                     (* y != x, but need elt *)
+            else accmember (y, a)
+        end
     
     fun insert (x, E) = T (E, x, E)
       | insert (x, s as T (a, y, b)) =
