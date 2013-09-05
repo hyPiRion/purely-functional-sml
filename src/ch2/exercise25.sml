@@ -39,9 +39,24 @@ struct
           else if Element.lt (y, x) then T (a, y, insert (x, b))
           else s
 
+    (* 25 a) *)
+    fun completeTree (x, 0) = E
+      | completeTree (x, d : int) =
+        let val child : Tree = completeTree (x, d - 1) in
+            T (child, x, child)
+        end
+
+    (* 25 b) *)
     fun complete (x, 0) = E
       | complete (x, d : int) =
-        let val child : Tree = complete (x, d - 1) in
-            T (child, x, child)
+        let
+            val leftChildSize = d div 2
+            val leftChild = complete (x, leftChildSize)
+        in
+            if d - 2 * leftChildSize - 1 = 0 then
+                T (leftChild, x, leftChild)
+            else let val rightChild = complete (x, d - 1 - leftChildSize)
+                 in T (leftChild, x, rightChild)
+                 end
         end
 end
